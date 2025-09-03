@@ -1,0 +1,10 @@
+<div class="container py-4" *ngIf="produto; else loading">
+    <a routerLink="/catalogo" class="btn btn-link mb-3">← Voltar</a>
+    <h1 class="h4">{{ produto.nome }}</h1>
+    <p class="text-muted">{{ produto.descricao || 'Sem descrição' }}</p>
+    <h3>{{ produto.preco | currency:'BRL' }}</h3>
+    <button class="btn btn-primary">Adicionar ao carrinho</button>
+</div>
+<ng-template #loading>
+    <div class="container py-4"><div class="alert alert-info">Carregando...</div></div>
+</ng-template>

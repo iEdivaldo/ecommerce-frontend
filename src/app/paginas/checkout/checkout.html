@@ -1,0 +1,15 @@
+<div class="container py-4">
+    <h1 class="h4">Checkout</h1>
+
+    <section class="mb-4">
+        <h2 class="h6">Endereços</h2>
+        <button class="btn btn-sm btn-outline-secondary" (click)="carregarEnderecos()">Carregar</button>
+        <ul class="mt-2">
+        <li *ngFor="let e of enderecos">
+            {{e.logradouro}}, {{e.cidade}} - {{e.estado}} ({{e.cep}}) <strong *ngIf="e.padrao">[padrão]</strong>
+        </li>
+        </ul>
+    </section>
+
+    <button class="btn btn-primary">Finalizar pedido</button>
+</div>

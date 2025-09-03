@@ -1,0 +1,29 @@
+<div class="container py-4">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+    <span *ngIf="usuarioAtual">Bem-vindo, {{ usuarioAtual }}!</span>
+    <h1 class="h3 m-0">Catálogo</h1>
+    <nav>
+        <a routerLink="/catalogo" class="btn btn-link">Catálogo</a>
+        <a routerLink="/carrinho" class="btn btn-link">Carrinho</a>
+        <a routerLink="/login" class="btn btn-primary">Entrar</a>
+        <a routerLink="/cadastro" class="btn btn-outline-primary ms-2">Cadastrar</a>
+    </nav>
+    </header>
+
+    <div *ngIf="carregando" class="alert alert-info">Carregando...</div>
+
+    <div class="row g-3">
+    <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let p of produtos">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">{{ p.nome }}</h5>
+            <p class="card-text small text-muted">{{ p.descricao || 'Sem descrição' }}</p>
+            <strong>{{ p.preco | currency:'BRL' }}</strong>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+            <a [routerLink]="['/produto', p.id]" class="btn btn-sm btn-outline-secondary w-100">Ver detalhes</a>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
