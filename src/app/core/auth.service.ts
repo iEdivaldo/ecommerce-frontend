@@ -18,6 +18,12 @@ export class AuthService {
         return this.http.post<any>(`${this.base}/autenticacao/login`, dados);
     }
 
+    logout() {
+        this.http.get(`${this.base}/autenticacao/logout`, {}).subscribe(() => {
+            this.sair();
+        });
+    }
+
     salvarToken(t: string, usuario?: any) {
         this.token.set(t);
         localStorage.setItem('token', t);
@@ -27,10 +33,18 @@ export class AuthService {
         }
     }
 
+
     sair() {
         this.token.set(null);
-        localStorage.removeItem('token');
         this.usuario.set(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+    }
+
+    limparTudo() {
+        this.token.set(null);
+        this.usuario.set(null);
+        localStorage.clear();
     }
 
     autenticado() {

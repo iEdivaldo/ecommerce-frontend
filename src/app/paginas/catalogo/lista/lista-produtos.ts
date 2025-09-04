@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
 import { AuthService } from '../../../core/auth.service';
-
 @Component({
   selector: 'app-lista-produtos',
   imports: [CommonModule, RouterModule],
@@ -12,15 +12,25 @@ import { AuthService } from '../../../core/auth.service';
 export class ListaProdutos {
   private api = inject(ApiService);
   private autenticacao = inject(AuthService);
-  usuarioAtual = this.autenticacao.usuario()?.nome;
+  private cdr = inject(ChangeDetectorRef);
+  usuarioAtual = this.autenticacao.usuario;
 
   produtos: any[] = [];
   carregando = true;
+  mensagens = false;
 
   ngOnInit() {
     this.api.listarProdutos().subscribe((dados: any) => {
-      this.produtos = Array.isArray(dados) ? dados : (dados.conteudo ?? []);
+      this.produtos = dados;
       this.carregando = false;
     });
+
+    if (this.usuarioAtual()) {
+      this.mensagens = true;
+      setTimeout(() => {
+        this.mensagens = false;
+        this.cdr.detectChanges();
+      }, 3000);
+    }
   }
 }

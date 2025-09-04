@@ -1,10 +1,39 @@
-  <header style="padding:12px; border-bottom:1px solid #eee; display:flex; gap:12px;">
-    <a routerLink="/catalogo">Catálogo</a>
-    <a routerLink="/carrinho">Carrinho</a>
-    <a routerLink="/login">Entrar</a>
-    <a routerLink="/cadastro">Cadastrar</a>
-    <a routerLink="/ping">Ping</a>
-  </header>
-  <main style="padding:16px;">
-    <router-outlet></router-outlet>
-  </main>
+  <div class="d-flex" style="min-height: 100vh;">
+    <nav [class.d-none]="menuColapsado" class="bg-light border-end transition" style="width: 220px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 1040;">
+      <div class="d-flex flex-column p-3 gap-2">
+        <button class="btn btn-outline-secondary mb-3 align-self-end" (click)="menuColapsado = true" aria-label="Ocultar menu">
+          &laquo; Ocultar Menu
+        </button>
+        <h2 class="fs-5 fw-bold mb-4" style="font-family: Baskervville;">Menu</h2>
+        <div class="nav flex-column">
+          <button type="button" routerLink="/catalogo" class="btn btn-outline-primary text-start mb-2 w-100">Catálogo</button>
+          <button type="button" routerLink="/carrinho" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin()">Carrinho</button>
+          <button type="button" routerLink="/pedidos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin()">Meus Pedidos</button>
+          <button type="button" routerLink="/administracao/produtos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin()">Meus Produtos</button>
+          <button type="button" routerLink="/configuracao" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual()">Configuração</button>
+          <botao-logout></botao-logout>
+        </div>
+      </div>
+    </nav>
+  <!-- Botão Mostrar Menu agora dentro do header -->
+  <div class="flex-grow-1" [style.marginLeft]="menuColapsado ? '0' : '220px'">
+      <header class="d-flex align-items-center justify-content-between py-3 px-4 border-bottom bg-light">
+        <div class="d-flex align-items-center">
+          <button *ngIf="menuColapsado" class="btn btn-outline-secondary me-3" (click)="menuColapsado = false" aria-label="Mostrar menu">
+            &raquo; Mostrar Menu
+          </button>
+          <button *ngIf="!menuColapsado" class="btn btn-outline-secondary d-md-none me-3" (click)="menuColapsado = true" aria-label="Ocultar menu">
+            &laquo; Ocultar Menu
+          </button>
+          <h1 class="m-0 fw-bold" style="font-family: Baskervville; font-size:2rem; letter-spacing:1px; user-select: none;">Bem-vindo ao nosso e-commerce eletrônico de eletrodomésticos!</h1>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary" *ngIf="!usuarioAtual()" routerLink="/login">Entrar</button>
+          <button type="button" class="btn btn-outline-primary" *ngIf="!usuarioAtual()" routerLink="/cadastro">Cadastrar</button>
+        </div>
+      </header>
+      <main style="padding:16px;">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div>
