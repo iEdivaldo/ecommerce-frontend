@@ -1,0 +1,42 @@
+  <div class="container py-4">
+    <h1 class="h4">Adicionar Categoria</h1>
+
+    <form class="row g-2" (ngSubmit)="salvarCategoria()">
+      <div class="col-md-3">
+        <label for="nome">Nome</label>
+        <input [(ngModel)]="form.nome" name="nome" class="form-control" required>
+      </div>
+      <div class="col-12 d-flex justify-content-center mt-4">
+        <button class="btn btn-success px-5 py-3 fs-4" style="font-weight:bold; letter-spacing:1px;">
+          {{ editando ? 'Editar Categoria' : 'Adicionar Categoria' }}
+        </button>
+
+        <button type="button" class="btn btn-secondary px-5 py-3 fs-4" (click)="limparFormulario()" *ngIf="editando">Limpar o Formulario</button>
+      </div>
+    </form>
+
+    <div *ngIf="msg" class="alert alert-info mt-3">{{msg}}</div>
+
+    <div *ngIf="carregando" class="alert alert-info">Carregando...</div>
+
+    <div class="mt-5" *ngIf="!carregando && tabelaCategorias.length">
+      <h2 class="h5 mb-3 text-center">Categorias cadastradas</h2>
+      <table class="table table-bordered table-striped text-center align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Nome da Categoria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of tabelaCategorias">
+            <td>{{c.nome}}</td>
+            <td>
+              <button class="btn btn-warning btn-sm me-1" (click)="editarCategoria(c.id, c)" [disabled]="!usuarioAtual()">Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="excluirCategoria(c.id)" [disabled]="!usuarioAtual()">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!tabelaCategorias.length && !carregando" class="alert alert-warning">Nenhuma categoria encontrada.</div>
+</div>

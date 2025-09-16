@@ -4,8 +4,9 @@ import { AuthService } from "./auth.service";
 
 export const JwtInterceptor: HttpInterceptorFn = (req, next) => {
     const auth = inject(AuthService);
+    const token = typeof auth.token === 'function' ? auth.token() : auth.token;
     if (auth.autenticado()) {
-        const token = auth.token();
+        
         if (token) {
             console.log(token)
             req = req.clone({

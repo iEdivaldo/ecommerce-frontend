@@ -10,6 +10,7 @@
           <button type="button" routerLink="/carrinho" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin()">Carrinho</button>
           <button type="button" routerLink="/pedidos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin()">Meus Pedidos</button>
           <button type="button" routerLink="/administracao/produtos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin()">Meus Produtos</button>
+          <button type="button" routerLink="/administracao/categorias" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin()">Todas as Categorias</button>
           <button type="button" routerLink="/configuracao" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual()">Configuração</button>
           <botao-logout></botao-logout>
         </div>

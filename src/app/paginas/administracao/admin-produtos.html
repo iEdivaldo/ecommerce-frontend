@@ -1,22 +1,86 @@
   <div class="container py-4">
-    <h1 class="h4">Admin · Produtos</h1>
+    <h1 class="h4">Adicionar Produtos</h1>
 
-    <form class="row g-2" (ngSubmit)="criar()">
-      <div class="col-md-3"><input [(ngModel)]="form.nome" name="nome" placeholder="Nome" class="form-control" required></div>
-      <div class="col-md-3"><input [(ngModel)]="form.slug" name="slug" placeholder="slug" class="form-control" required></div>
-      <div class="col-md-3"><input [(ngModel)]="form.preco" name="preco" type="number" step="0.01" placeholder="Preço" class="form-control" required></div>
-      <div class="col-md-3"><input [(ngModel)]="form.sku" name="sku" placeholder="SKU" class="form-control"></div>
-      <div class="col-12"><textarea [(ngModel)]="form.descricao" name="descricao" placeholder="Descrição" class="form-control"></textarea></div>
-      <div class="col-6"><input [(ngModel)]="form.estoque" name="estoque" type="number" placeholder="Estoque" class="form-control" required></div>
-      <div class="col-6 d-flex align-items-center">
-        <label class="form-check">
-          <input [(ngModel)]="form.ativo" name="ativo" type="checkbox" class="form-check-input" checked> Ativo
-        </label>
+    <form class="row g-2" (ngSubmit)="salvarProduto()">
+      <div class="col-md-3">
+        <label for="nome">Nome</label>
+        <input [(ngModel)]="form.nomeProduto" name="nome" class="form-control" (ngModelChange)="atualizarSlug($event)" required>
+      </div>
+      <div class="col-md-3">
+        <label for="preco">Preço</label>
+        <div class="input-group">
+          <input [(ngModel)]="form.precoProduto" name="preco" type="number" step="0.01" class="form-control" required [value]="form.precoProduto || 0">
+          <span class="input-group-text">R$</span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="categoriaId">Categoria</label>
+        <select [(ngModel)]="form.categoriaId" name="categoriaId" class="form-select" required>
+          <option value="" disabled selected>Selecione a categoria</option>
+          <option *ngFor="let categoria of listasCategorias" [value]="categoria.id">{{ categoria.nome }}</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="sku">SKU</label>
+        <div class="input-group">
+          <input [(ngModel)]="form.codigoProduto" name="sku" class="form-control" readonly required="">
+          <button type="button" class="btn btn-outline-secondary" (click)="gerarSku()">Gerar SKU</button>
+        </div>
       </div>
       <div class="col-12">
-        <button class="btn btn-success">Criar produto</button>
+        <label for="descricao">Descrição</label>
+        <textarea [(ngModel)]="form.descricaoProduto" name="descricao" class="form-control"></textarea>
+      </div>
+      <div class="col-6">
+        <label for="estoque">Estoque</label>
+        <input [(ngModel)]="form.estoqueProduto" name="estoque" type="number" class="form-control" required>
+      </div>
+      <div class="col-12 d-flex justify-content-center mt-4">
+        <button class="btn btn-success px-5 py-3 fs-4" style="font-weight:bold; letter-spacing:1px;">
+          {{ editando ? 'Editar Produto' : 'Adicionar Produto' }}
+        </button>
+
+        <button type="button" class="btn btn-secondary px-5 py-3 fs-4" (click)="limparFormulario()" *ngIf="editando">Limpar o Formulario</button>
       </div>
     </form>
 
     <div *ngIf="msg" class="alert alert-info mt-3">{{msg}}</div>
+
+    <div *ngIf="carregando" class="alert alert-info">Carregando...</div>
+
+    <div class="mt-5" *ngIf="!carregando && tabelaProdutos.length">
+      <h2 class="h5 mb-3 text-center">Produtos cadastrados</h2>
+      <table class="table table-bordered table-striped text-center align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Nome</th>
+            <th>Slug</th>
+            <th>Preço</th>
+            <th>SKU</th>
+            <th>Descrição</th>
+            <th>Estoque</th>
+            <th>Ativo</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of tabelaProdutos">
+            <td>{{p.nomeProduto}}</td>
+            <td>{{p.slugProduto}}</td>
+            <td>R$ {{p.precoProduto}}</td>
+            <td>{{p.codigoProduto}}</td>
+            <td>{{p.descricaoProduto}}</td>
+            <td>{{p.estoqueProduto}}</td>
+            <td>{{p.produtoAtivo ? 'Sim' : 'Não'}}</td>
+            <td>{{p.categoria?.nome }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm me-1" (click)="editarProduto(p.id, p)" [disabled]="!usuarioAtual()">Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="excluirProduto(p.id)" [disabled]="!usuarioAtual()">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!tabelaProdutos.length && !carregando" class="alert alert-warning">Nenhum produto encontrado.</div>
 </div>

@@ -3,24 +3,45 @@
     <header class="mb-4">
         <h1 class="h3 m-0 text-center w-100">Catálogo</h1>
     </header>
-
-    <a  routerLink="administracao/produtos" class="btn btn-primary">Adicionar Produto</a>
-
+    
     <div *ngIf="carregando" class="alert alert-info">Carregando...</div>
 
     <div class="row g-3">
-    <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let p of produtos">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">{{ p.nome }}</h5>
-                <p class="card-text small text-muted">{{ p.descricao || 'Sem descrição' }}</p>
-                <strong>{{ p.preco | currency:'BRL' }}</strong>
+        <div class="d-flex gap-3 mb-3 flex-wrap">
+            <div>
+                <label for="filtroCategoria" class="form-label">Filtrar por Categoria:</label>
+                <select id="filtroCategoria" class="form-select" [(ngModel)]="categoriaSelecionada" (ngModelChange)="filtrarPorCategoria()">
+                    <option value="" selected>Todas as Categorias</option>
+                    <option *ngFor="let categoria of listasCategorias" [value]="categoria.id">{{ categoria.nome }}</option>
+                </select>
             </div>
-            <div class="card-footer bg-transparent border-0">
-                <a [routerLink]="['/produto', p.id]" class="btn btn-sm btn-outline-secondary w-100">Ver detalhes</a>
+            <div>
+                <label for="filtroPesquisa" class="form-label">Pesquisar:</label>
+                <input type="text" class="form-control" placeholder="Pesquisar produtos..." [(ngModel)]="filtroPesquisa" (ngModelChange)="filtrarPorPesquisa()">
+            </div>
+            <div>
+                <label for="filtroOrdenacao" class="form-label">Ordenar por:</label>
+                <select name="filtroOrdenacao" id="filtroOrdenacao" class="form-select" [(ngModel)]="ordenacaoSelecionada" (ngModelChange)="ordenarProdutos($event)">
+                    <option value="" disabled selected>Ordenar por</option>
+                    <option value="precoAsc">Preço: Menor para Maior</option>
+                    <option value="precoDesc">Preço: Maior para Menor</option>
+                    <option value="nomeAsc">Nome: A-Z</option>
+                    <option value="nomeDesc">Nome: Z-A</option>
+                </select>
             </div>
         </div>
-    </div>
-    <div *ngIf="!produtos.length && !carregando" class="alert alert-warning">Nenhum produto encontrado.</div>
+        <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let p of produtos">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ p.nomeProduto }}</h5>
+                    <p class="card-text small text-muted">{{ p.descricaoProduto || 'Nenhuma descrição disponível no momento.' }}</p>
+                    <strong>{{ p.precoProduto | currency:'BRL' }}</strong>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a [routerLink]="['/produto', p.id]" class="btn btn-sm btn-outline-secondary w-100">Ver detalhes</a>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!produtos.length && !carregando" class="alert alert-warning">Nenhum produto encontrado.</div>
     </div>
 </div>

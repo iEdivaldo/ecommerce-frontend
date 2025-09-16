@@ -18,6 +18,7 @@ export class App {
   admin = false;
   logout() {
     this.autenticacao.logout();
+    this.admin = false;
   }
 
   isAdmin() {

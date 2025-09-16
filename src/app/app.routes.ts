@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth-guard';
+import { AdminGuard } from './core/admin.guard';
 
 export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'produtos' },
@@ -14,7 +15,8 @@ export const routes: Routes = [
     // autenticacao
     { path: 'carrinho', canActivate: [authGuard], loadComponent: () => import('./paginas/carrinho/carrinho').then(m => m.Carrinho) },
     { path: 'checkout', canActivate: [authGuard], loadComponent: () => import('./paginas/checkout/checkout').then(m => m.Checkout) },
-    { path: 'administracao/produtos', canActivate: [authGuard], loadComponent: () => import('./paginas/administracao/admin-produtos').then(m => m.AdminProdutos) },
+    { path: 'administracao/produtos', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-produtos').then(m => m.AdminProdutos) },
+    { path: 'administracao/categorias', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-categorias/admin-categorias').then(m => m.AdminCategorias) },
 
     { path: '**', redirectTo: 'produtos' }
 

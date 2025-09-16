@@ -19,10 +19,15 @@ export class Login {
   carregando = false;
   erro: string = '';
 
+  form = {
+    email: 'admin@exemplo.com',
+    senha: 'admin'
+  };
+
   entrar() {
     this.carregando = true;
     this.erro = '';
-    this.autenticacao.entrar({ email: this.email, senha: this.senha }).subscribe({
+    this.autenticacao.entrar({ email: this.form.email, senha: this.form.senha }).subscribe({
       next: (res: any) => {
         const token = res?.tokens.tokenAcesso;
         const usuario = res?.usuario;

@@ -23,10 +23,10 @@ export class Cadastro {
   registrar() {
     this.carregando = true;
     this.erro = '';
-    if (this.validarSenha()) {
+    if (this.validarSenha(this.senha, this.confirmacaoSenha)) {
       this.autenticacao.registrar({ nome: this.nome, email: this.email, senha: this.senha, perfil: 'CLIENTE' }).subscribe({
         next: (res: any) => {
-          const token = res?.token?.tokenAcesso;
+          const token = res?.tokens.tokenAcesso;
           const usuario = res?.usuario;
           if (token) {
             this.autenticacao.salvarToken(token, usuario);
@@ -40,19 +40,17 @@ export class Cadastro {
           this.carregando = false;
         }
       });
+    } else {
+      this.carregando = false;
     }
   }
 
-  validarSenha() {
-    const senha = this.senha;
-    const confirmacao = this.confirmacaoSenha;
-
+  validarSenha(senha: string, confirmacao: string) {
     if (senha !== confirmacao) {
       this.erro = 'As senhas não coincidem.';
-      return true;
-    } else {
-      this.erro = '';
       return false;
+    } else {
+      return true;
     }
   }
 }
