@@ -43,7 +43,6 @@ export class ApiService {
     }
 
     listarCategorias(params: any = {}) {
-        console.log('listando categorias com params:', params);
         return this.http.get(`${this.base}/administracao/categorias`, { params });
     }
 

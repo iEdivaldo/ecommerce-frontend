@@ -71,7 +71,6 @@ export class ListaProdutos {
   }
 
   ordenarProdutos(criterio: string) {
-    console.log("Critério de ordenação:", criterio);
     if (criterio === 'precoAsc') {
       this.produtos.sort((a, b) => a.precoProduto - b.precoProduto);
     } else if (criterio === 'precoDesc') {
@@ -88,7 +87,7 @@ export class ListaProdutos {
 
   carregarDadosCategorias() {
     this.api.listarCategorias().subscribe((dados: any) => {
-      this.listasCategorias = dados;
+      this.listasCategorias = dados.sort((a: { nome: string }, b: { nome: string }) => a.nome.localeCompare(b.nome));
       this.cdr.detectChanges();
     });
   }

@@ -40,9 +40,11 @@ export class AdminCategorias {
         if (this.editando && this.form) {
             this.api.editarCategoria(this.idCategoriaEditando!, this.form).subscribe(() => {
                 this.carregarCategorias();
+                this.limparFormulario();
             });
         } else {
             this.criar();
+            this.limparFormulario();
         }
     }
 

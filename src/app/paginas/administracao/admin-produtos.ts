@@ -61,7 +61,6 @@ export class AdminProdutos {
     this.api.listarProdutosAdministracao().subscribe((dados: any) => {
       this.tabelaProdutos = dados.sort((a: any, b: any) => a.nomeProduto.localeCompare(b.nomeProduto));
       this.carregando = false;
-      console.log('Produtos carregados:', this.tabelaProdutos);
       this.cdr.detectChanges();
     });
   }
@@ -142,7 +141,6 @@ export class AdminProdutos {
   carregarCategorias() {
     this.api.listarCategorias().subscribe((dados: any) => {
       this.listasCategorias = dados.sort((a: any, b: any) => a.nome.localeCompare(b.nome));
-      console.log('Categorias carregadas:', this.listasCategorias);
       this.carregando = false;
       this.cdr.detectChanges();
     });
