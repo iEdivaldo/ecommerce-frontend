@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, Output, signal } from '@angular/core';
+import { Component, computed, inject, Input, Output, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './core/auth.service';
 import { BotaoLogoutComponent } from "./shared/logout/logout";
@@ -10,21 +10,14 @@ import { BotaoLogoutComponent } from "./shared/logout/logout";
   templateUrl: './app.html'
 })
 export class App {
-  protected readonly title = signal('ecommerce-frontend');
+  protected readonly title = 'ecommerce-frontend';
   private autenticacao = inject(AuthService);
   usuarioAtual = this.autenticacao.usuario;
   
   menuColapsado = false;
-  admin = false;
+ 
+  isAdmin = computed(() => this.usuarioAtual().perfil === 'ADMINISTRADOR');
   logout() {
     this.autenticacao.logout();
-    this.admin = false;
-  }
-
-  isAdmin() {
-    if(this.usuarioAtual().perfil === 'ADMINISTRADOR') {
-      this.admin = true;
-    }
-    return this.admin;
   }
 }

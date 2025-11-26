@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações do Usuário</title>
+</head>
+<body>
+    <div class="container"> <!-- Container principal -->
+        <header class="my-4">
+            <h1 class="h3 text-center">Configurações do Usuário</h1>
+        </header>
+
+        <section class="mb-4">
+            <h2 class="h5">Informações Pessoais</h2>
+            <form (ngSubmit)="salvarConfiguracoes()">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input type="text" name="nome" [(ngModel)]="nome" class="form-control" placeholder="Seu nome">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" name="email" [(ngModel)]="email" class="form-control" placeholder="Seu email">
+                </div>
+
+                <h2 class="h5 mt-4">Alterar Senha (opcional)</h2>
+                <div class="mb-3">
+                    <label for="senhaAtual" class="form-label">Senha Atual:</label>
+                    <input type="password" name="senhaAtual" [(ngModel)]="senhaAtual" class="form-control" placeholder="Senha atual">
+                </div>
+
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha:</label>
+                    <input type="password" name="senha" [(ngModel)]="senha" class="form-control" placeholder="Nova senha">
+                </div>
+
+                <div class="mb-3">
+                    <label for="confirmarSenha" class="form-label">Confirmar Senha:</label>
+                    <input type="password" name="confirmarSenha" [(ngModel)]="confirmarSenha" class="form-control" placeholder="Confirme a nova senha">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <div *ngIf="erro" class="alert alert-danger mt-3">{{erro}}</div>
+                <div *ngIf="sucesso" class="alert alert-success mt-3">{{sucesso}}</div>
+            </form>
+        </section>
+    </div>
+</body>
+</html>

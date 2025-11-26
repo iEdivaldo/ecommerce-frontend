@@ -27,14 +27,14 @@ export class Login {
   entrar() {
     this.carregando = true;
     this.erro = '';
-    this.autenticacao.entrar({ email: this.form.email, senha: this.form.senha }).subscribe({
+    this.autenticacao.entrar({ email: this.email, senha: this.senha }).subscribe({
       next: (res: any) => {
         const token = res?.tokens.tokenAcesso;
         const usuario = res?.usuario;
 
         if (token) {
           this.autenticacao.salvarToken(token, usuario);
-          this.router.navigateByUrl('/catalogo');
+          this.router.navigateByUrl('/produtos');
         }
       },
       error: (err) => {

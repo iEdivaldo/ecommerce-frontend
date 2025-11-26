@@ -17,6 +17,7 @@ export const routes: Routes = [
     { path: 'checkout', canActivate: [authGuard], loadComponent: () => import('./paginas/checkout/checkout').then(m => m.Checkout) },
     { path: 'administracao/produtos', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-produtos').then(m => m.AdminProdutos) },
     { path: 'administracao/categorias', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-categorias/admin-categorias').then(m => m.AdminCategorias) },
+    { path: 'configuracoes', canActivate: [authGuard], loadComponent: () => import('./paginas/configuracoes/configuracoes-usuario').then(m => m.ConfiguracoesUsuario) },
 
     { path: '**', redirectTo: 'produtos' }
 

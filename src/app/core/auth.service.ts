@@ -7,10 +7,25 @@ import { consumerPollProducersForChange } from "@angular/core/primitives/signals
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private base = environment.apiUrl;
-    token = signal<string | null>(localStorage.getItem('token'));
+    token = signal<string | null>(null);
     router = inject(Router);
-    usuario = signal<any | null>(JSON.parse(localStorage.getItem('usuario') || 'null'));
-    constructor(private http: HttpClient) {}
+    usuario = signal<any | null>(null);
+
+    constructor(private http: HttpClient) {
+        const tokenSalvo = localStorage.getItem('token');
+        const usuarioSalvo = localStorage.getItem('usuario');
+        
+        if (tokenSalvo && usuarioSalvo) {
+            try {
+                this.token.set(tokenSalvo);
+                this.usuario.set(JSON.parse(usuarioSalvo));
+            } catch (e) {
+                this.limparTudo();
+            }
+        } else {
+            this.limparTudo();
+        }
+    }
  
     registrar(dados: { nome: string; email: string; senha: string; perfil?: 'CLIENTE'|'ADMINISTRADOR'}) {
         return this.http.post<any>(`${this.base}/autenticacao/registrar`, dados);
@@ -21,9 +36,7 @@ export class AuthService {
     }
 
     logout() {
-        this.http.get(`${this.base}/autenticacao/logout`, {}).subscribe(() => {
-            this.sair();
-        });
+        this.sair();
     }
 
     salvarToken(t: string, usuario?: any) {
@@ -40,17 +53,15 @@ export class AuthService {
     }
 
     sair() {
-        this.token.set(null);
-        this.usuario.set(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
-        this.router.navigate(['/catalogo']);
+        this.limparTudo();
+        this.router.navigate(['/produtos']);
     }
 
     limparTudo() {
         this.token.set(null);
         this.usuario.set(null);
-        localStorage.clear();
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
     }
 
     autenticado() {
