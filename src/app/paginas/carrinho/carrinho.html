@@ -1,4 +1,49 @@
 <div class="container py-4">
-    <h1 class="h4">Carrinho</h1>
-    <p>Aqui você exibirá itens do carrinho (estado local/API).</p>
+    <header class="mb-4">
+        <h1 class="h3 m-0 text-center w-100">Carrinho de Compras</h1>
+    </header>
+
+    <div *ngIf="carrinhoItems().length === 0" class="alert alert-warning">Seu carrinho está vazio.</div>
+    
+    <div *ngIf="carrinhoItems().length > 0" class="row g-3">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Preço Unitário</th>
+                        <th>Total</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of carrinhoItems()">
+                        <td >{{ item.nomeProduto }}</td>
+                        <td>
+                            <div class="input-group" style="max-width: 150px;">
+                                <button class="btn btn-outline-secondary btn-sm" type="button" 
+                                        (click)="alterarQuantidade(item.id, item.quantidade - 1)">-</button>
+                                <input type="number" class="form-control form-control-sm text-center" 
+                                    [value]="item.quantidade" 
+                                    (change)="alterarQuantidade(item.id, +$any($event.target).value)"
+                                    min="1">
+                                <button class="btn btn-outline-secondary btn-sm" type="button" 
+                                        (click)="alterarQuantidade(item.id, item.quantidade + 1)">+</button>
+                            </div>
+                        </td>
+                        <td>R$ {{ item.precoProduto.toFixed(2) }}</td>
+                        <td>R$ {{ (item.quantidade * item.precoProduto).toFixed(2) }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" (click)="removerItem(item.id)">Remover produto</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 text-end">
+            <h4>Total do Carrinho: {{ totalCarrinho | currency:'BRL'}}</h4>
+            <button class="btn btn-primary" (click)="finalizarCompra()" >Finalizar Compra</button>
+        </div>
+    </div>
 </div>

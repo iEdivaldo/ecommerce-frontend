@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
 import { AuthService } from '../../../core/auth.service';
 import { FormsModule } from '@angular/forms';
 import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
+import { CarrinhoService } from '../../carrinho/carrinho.service';
 @Component({
   selector: 'app-lista-produtos',
   imports: [CommonModule, RouterModule, FormsModule],
@@ -16,7 +17,8 @@ export class ListaProdutos {
   private autenticacao = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
   usuarioAtual = this.autenticacao.usuario;
-
+  private carrinho = inject(CarrinhoService);
+  mostrarAlerta = signal(false);
   produtos: any[] = [];
   listasCategorias: any[] = [];
   carregando = true;
@@ -25,6 +27,7 @@ export class ListaProdutos {
   filtroPesquisa: string = '';
   todosProdutos: any[] = [];
   ordenacaoSelecionada: string = '';
+  produtoAdicionadoId: number | null = null;
 
   ngOnInit() {
     this.carregarDados();
@@ -98,5 +101,14 @@ export class ListaProdutos {
       this.todosProdutos = dados;
       this.cdr.detectChanges();
     });
+  }
+
+  adicionarAoCarrinho(produto: any) {
+  this.carrinho.adicionarItem(produto);
+  this.mostrarAlerta.set(true);
+  
+  setTimeout(() => {
+    this.mostrarAlerta.set(false);
+  }, 3000);
   }
 }
