@@ -3,6 +3,7 @@ import { Component, computed, inject, Input, Output, signal } from '@angular/cor
 import { RouterModule } from '@angular/router';
 import { AuthService } from './core/auth.service';
 import { BotaoLogoutComponent } from "./shared/logout/logout";
+import { TemaService } from './shared/tema/tema.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +14,16 @@ export class App {
   protected readonly title = 'ecommerce-frontend';
   private autenticacao = inject(AuthService);
   usuarioAtual = this.autenticacao.usuario;
-  
+  protected tema = inject(TemaService);
   menuColapsado = false;
  
   isAdmin = computed(() => this.usuarioAtual().perfil === 'ADMINISTRADOR');
+  
   logout() {
     this.autenticacao.logout();
+  }
+
+  alterarTema() {
+    this.tema.alternarTema();
   }
 }

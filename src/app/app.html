@@ -1,5 +1,8 @@
   <div class="d-flex" style="min-height: 100vh;">
-    <nav [class.d-none]="menuColapsado" class="bg-light border-end transition" style="width: 220px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 1040;">
+    <nav [class.d-none]="menuColapsado" 
+    [class.bg-light]="!tema.modoEscuro()" 
+    [class.bg-dark]="tema.modoEscuro()" 
+    class="border-end transition" style="width: 220px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 1040;">
       <div class="d-flex flex-column p-3 gap-2">
         <button class="btn btn-outline-secondary mb-3 align-self-end" (click)="menuColapsado = true" aria-label="Ocultar menu">
           &laquo; Ocultar Menu
@@ -13,12 +16,17 @@
           <button type="button" routerLink="/administracao/categorias" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin()">Todas as Categorias</button>
           <button type="button" routerLink="/configuracoes" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual()">Configuração</button>
           <botao-logout></botao-logout>
+          <!-- Modo escuro -->
+          <button type="button" class="btn btn-outline-secondary text-start mt-4 w-100" (click)="alterarTema()">
+            {{ tema.modoEscuro() ? '☀️ Modo Claro' : '🌙 Modo Escuro' }}
+          </button>
+          <!-- Modo escuro -->
         </div>
       </div>
     </nav>
   <!-- Botão Mostrar Menu agora dentro do header -->
-  <div class="flex-grow-1" [style.marginLeft]="menuColapsado ? '0' : '220px'">
-      <header class="d-flex align-items-center justify-content-between py-3 px-4 border-bottom bg-light">
+  <div [class.bg-light]="!tema.modoEscuro()" [class.bg-dark]="tema.modoEscuro()" class="flex-grow-1" [style.marginLeft]="menuColapsado ? '0' : '220px'">
+      <header class="d-flex align-items-center justify-content-between py-3 px-4 border-bottom">
         <div class="d-flex align-items-center">
           <button *ngIf="menuColapsado" class="btn btn-outline-secondary me-3" (click)="menuColapsado = false" aria-label="Mostrar menu">
             &raquo; Mostrar Menu
