@@ -10,4 +10,16 @@ export class UsuariosService {
     carregarUsuarios(): Observable<any> {
         return this.http.get(`${environment.apiUrl}/super_admin/usuarios`);
     }
+
+    adicionarUsuario(usuario: any): Observable<any> {
+        return this.http.post(`${environment.apiUrl}/super_admin/usuarios`, usuario);
+    }
+
+    editarUsuario(id: number, usuario: any): Observable<any> {
+        return this.http.put(`${environment.apiUrl}/super_admin/usuario/${id}`, usuario);
+    }
+
+    excluirUsuario(id: number): Observable<any> {
+        return this.http.delete(`${environment.apiUrl}/super_admin/usuario/${id}`);
+    }
 }

@@ -2,21 +2,26 @@
  <div class="container mt-4">
    <h1 class="mb-4">Gerenciamento de Usuários</h1>
  
-   <table class="table table-striped">
-     <thead>
-       <tr>
-         <th>ID</th>
-         <th>Nome</th>
-         <th>Email</th>
-         <th>Perfil</th>
-       </tr>
-     </thead>
-     <tbody>
-       <tr *ngFor="let usuario of usuarios">
-         <td>{{ usuario.id }}</td>
-         <td>{{ usuario.nome }}</td>
-         <td>{{ usuario.email }}</td>
-         <td>{{ usuario.perfil }}</td>
-       </tr>
-     </tbody>
-   </table>
+    <button type="button" routerLink="/super_admin/usuarios/add" class="btn btn-primary mb-3">Adicionar Novo Usuário</button>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Perfil</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.nome }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.perfil }}</td>
+          <td>
+            <!-- Aqui você pode adicionar botões para editar ou excluir usuários -->
+            <button class="btn btn-sm btn-warning me-2" (click)="editarUsuario(usuario.id)">Editar</button>
+            <button class="btn btn-sm btn-danger" (click)="excluirUsuario(usuario.id)">Excluir</button>
+        </tr>
+      </tbody> 
+    </table>
+</div>

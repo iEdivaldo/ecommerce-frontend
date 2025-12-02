@@ -16,12 +16,13 @@ export const routes: Routes = [
     { path: 'carrinho', canActivate: [authGuard], loadComponent: () => import('./paginas/carrinho/carrinho').then(m => m.Carrinho) },
     { path: 'checkout', canActivate: [authGuard], loadComponent: () => import('./paginas/checkout/checkout').then(m => m.Checkout) },
     { path: 'administracao/produtos', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-produtos').then(m => m.AdminProdutos) },
-    { path: 'administracao/categorias', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-categorias/admin-categorias').then(m => m.AdminCategorias) },
     { path: 'configuracoes', canActivate: [authGuard], loadComponent: () => import('./paginas/configuracoes/configuracoes-usuario').then(m => m.ConfiguracoesUsuario) },
 
 
     // super admin
+    { path: 'super_admin/categorias', canActivate: [authGuard], loadComponent: () => import('./paginas/administracao/admin-categorias/admin-categorias').then(m => m.AdminCategorias) },
     { path: 'super_admin/usuarios', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios').then(m => m.PaginaUsuariosSuperAdmin) },
+    { path: 'super_admin/usuarios/add', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios-add/usuarios-add').then(m => m.PaginaUsuariosAddSuperAdmin) },
 
     { path: '**', redirectTo: 'produtos' }
 

@@ -1,27 +1,51 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectorRef, Component, inject } from "@angular/core";
 import { UsuariosService } from "./usuarios.service";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: 'pagina-usuarios-super-admin',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './usuarios.html'
 })
 export class PaginaUsuariosSuperAdmin {
-
+  private cdr = inject(ChangeDetectorRef)
   private service = inject(UsuariosService);
 
   usuarios = [] as any[];
 
   ngOnInit() {
-    // Aqui você pode carregar os usuários de um serviço ou API
-    console.log(this.usuarios);
+    this.carregarUsuarios();
   }
 
   carregarUsuarios() {
     this.service.carregarUsuarios().subscribe((dados) => {
+      dados = dados.filter((usuario: any) => usuario.perfil === 'ADMINISTRADOR');
+      dados = dados.map((usuario: any) => {
+        return {
+          ...usuario,
+          perfil: 'VENDEDOR(A)/EMPREENDEDOR(A)'
+        }
+      });
       this.usuarios = dados;
+      this.cdr.detectChanges();
     });
+  }
+
+  editarUsuario(id: number) {
+    // Lógica para editar o usuário com o ID fornecido
+    this.service.editarUsuario(id, {}).subscribe(() => {
+      this.carregarUsuarios();
+    });
+    console.log(`Editar usuário com ID: ${id}`);
+  }
+
+  excluirUsuario(id: number) {
+    // Lógica para excluir o usuário com o ID fornecido
+    this.service.excluirUsuario(id).subscribe(() => {
+      this.carregarUsuarios();
+    });
+    console.log(`Excluir usuário com ID: ${id}`);
   }
 
 }

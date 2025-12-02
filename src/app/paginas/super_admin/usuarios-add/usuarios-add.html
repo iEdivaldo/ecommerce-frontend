@@ -1,0 +1,23 @@
+<!--PAGINA PARA ADICIONAR NOVOS USUARIOS COMO "ADMINISTRADOR"-->
+<div class="container mt-5">
+    <h2>Adicionar Novo Usuário</h2>
+    <form (ngSubmit)="adicionarUsuario()">
+        <div class="mb-3">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" [(ngModel)]="form.nome" name="nome" class="form-control" id="nome" placeholder="Digite o nome completo">
+        </div>
+        <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" [(ngModel)]="form.email" name="email" class="form-control" id="email" placeholder="Digite o email">
+        </div>
+        <div class="mb-3">
+        <label for="senha" class="form-label">Senha:</label>
+        <input type="password" [(ngModel)]="form.senha" name="senha" class="form-control" id="senha" placeholder="Digite a senha">
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Adicionar Usuário</button>
+        
+            <button type="button" routerLink="/super_admin/usuarios" class="btn btn-danger">Cancelar</button>
+        </div>
+    </form>
+</div>
