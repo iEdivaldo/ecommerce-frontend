@@ -49,7 +49,9 @@ export class AuthService {
     }
 
     usuarioTemPermissao(): boolean {
-        return this.usuario() && this.usuario().perfil.includes("ADMINISTRADOR");
+        const user = this.usuario();
+        return user && user.perfil === "ADMINISTRADOR";
+        //return this.usuario() && this.usuario().perfil.includes("ADMINISTRADOR");
     }
 
     sair() {
