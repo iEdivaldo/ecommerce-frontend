@@ -19,6 +19,10 @@ export const routes: Routes = [
     { path: 'administracao/categorias', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-categorias/admin-categorias').then(m => m.AdminCategorias) },
     { path: 'configuracoes', canActivate: [authGuard], loadComponent: () => import('./paginas/configuracoes/configuracoes-usuario').then(m => m.ConfiguracoesUsuario) },
 
+
+    // super admin
+    { path: 'super_admin/usuarios', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios').then(m => m.PaginaUsuariosSuperAdmin) },
+
     { path: '**', redirectTo: 'produtos' }
 
 ]

@@ -10,10 +10,11 @@
         <h2 class="fs-5 fw-bold mb-4" style="font-family: Baskervville;">Menu</h2>
         <div class="nav flex-column">
           <button type="button" routerLink="/produtos" class="btn btn-outline-primary text-start mb-2 w-100">Catálogo</button>
-          <button type="button" routerLink="/carrinho" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin()">Carrinho</button>
-          <button type="button" routerLink="/pedidos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin()">Meus Pedidos</button>
-          <button type="button" routerLink="/administracao/produtos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin()">Meus Produtos</button>
-          <button type="button" routerLink="/administracao/categorias" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin()">Todas as Categorias</button>
+          <button type="button" routerLink="/carrinho" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && !isSuperAdmin()">Carrinho</button>
+          <button type="button" routerLink="/pedidos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && !isSuperAdmin()">Meus Pedidos</button>
+          <button type="button" routerLink="/administracao/produtos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin() && !isSuperAdmin()">Meus Produtos</button>
+          <button type="button" routerLink="/administracao/categorias" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin() && !isSuperAdmin()">Todas as Categorias</button>
+          <button type="button" routerLink="/super_admin/usuarios" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isSuperAdmin()">Gerenciar Usuários</button>
           <button type="button" routerLink="/configuracoes" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual()">Configuração</button>
           <botao-logout></botao-logout>
           <!-- Modo escuro -->

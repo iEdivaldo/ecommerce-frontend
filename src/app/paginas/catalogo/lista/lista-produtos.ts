@@ -104,11 +104,12 @@ export class ListaProdutos {
   }
 
   adicionarAoCarrinho(produto: any) {
-  this.carrinho.adicionarItem(produto);
-  this.mostrarAlerta.set(true);
-  
-  setTimeout(() => {
-    this.mostrarAlerta.set(false);
-  }, 3000);
+    console.log('Adicionando ao carrinho:', produto);
+    this.carrinho.adicionarItem(produto);
+    this.mostrarAlerta.set(true);
+    
+    setTimeout(() => {
+      this.mostrarAlerta.set(false);
+    }, 3000);
   }
 }

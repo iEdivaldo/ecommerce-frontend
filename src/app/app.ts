@@ -18,7 +18,7 @@ export class App {
   menuColapsado = false;
  
   isAdmin = computed(() => this.usuarioAtual().perfil === 'ADMINISTRADOR');
-  
+  isSuperAdmin = computed(() => this.usuarioAtual().perfil === 'SUPER_ADMIN');
   logout() {
     this.autenticacao.logout();
   }

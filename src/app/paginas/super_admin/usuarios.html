@@ -1,0 +1,22 @@
+<!-- LISTA DOS USUARIOS -->
+ <div class="container mt-4">
+   <h1 class="mb-4">Gerenciamento de Usuários</h1>
+ 
+   <table class="table table-striped">
+     <thead>
+       <tr>
+         <th>ID</th>
+         <th>Nome</th>
+         <th>Email</th>
+         <th>Perfil</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let usuario of usuarios">
+         <td>{{ usuario.id }}</td>
+         <td>{{ usuario.nome }}</td>
+         <td>{{ usuario.email }}</td>
+         <td>{{ usuario.perfil }}</td>
+       </tr>
+     </tbody>
+   </table>

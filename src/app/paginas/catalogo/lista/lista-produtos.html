@@ -4,7 +4,7 @@
          style="z-index: 9999;">
         <i class="bi bi-check-circle me-2"></i>Produto adicionado ao carrinho!
     </div>
-    <div class="alert alert-info w-auto d-inline-block" *ngIf="mensagens && usuarioAtual() as usuario">Bem-vindo, {{ usuario.nome }}!</div>
+    <div class="alert alert-info w-auto d-inline-block" *ngIf="mensagens && usuarioAtual() as usuario">Bem-vindo, {{ usuario.nome }}! {{ usuario.perfil }}</div>
     <header class="mb-4">
         <h1 class="h3 m-0 text-center w-100">Catálogo</h1>
     </header>
