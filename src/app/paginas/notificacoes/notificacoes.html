@@ -1,0 +1,63 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Notificações</h1>
+        <button 
+            class="btn btn-outline-primary btn-sm" 
+            (click)="marcarTodasComoLidas()"
+            [disabled]="!temNotificacoesNaoLidas()">
+            Marcar todas como lidas
+        </button>
+    </div>
+
+    <!-- Loading -->
+    @if (carregando) {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+        </div>
+    }
+
+    <!-- Lista de Notificações -->
+    @if (!carregando && notificacoes.length > 0) {
+        <div class="list-group">
+            @for (notificacao of notificacoes; track notificacao.id) {
+                <div 
+                    class="list-group-item list-group-item-action"
+                    [class.list-group-item-light]="notificacao.lida"
+                    (click)="marcarComoLida(notificacao)"
+                    style="cursor: pointer;">
+                    
+                    <div class="d-flex w-100 justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="me-2 fs-4">{{ getIconeNotificacao(notificacao.tipo) }}</span>
+                                <h5 class="mb-0">{{ notificacao.titulo }}</h5>
+                                @if (!notificacao.lida) {
+                                    <span class="badge bg-primary rounded-pill ms-2">Nova</span>
+                                }
+                            </div>
+                            <p class="mb-1" style="white-space: pre-line;">{{ notificacao.mensagem }}</p>
+                        </div>
+                        <small class="text-muted ms-3">{{ formatarData(notificacao.dataHora) }}</small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Nenhuma notificação -->
+    @if (!carregando && notificacoes.length === 0) {
+        <div class="alert alert-info text-center" role="alert">
+            <i class="bi bi-inbox fs-1"></i>
+            <p class="mt-3 mb-0">Você não tem notificações no momento.</p>
+        </div>
+    }
+
+    <!-- Botão Voltar -->
+    <div class="mt-4">
+        <button type="button" class="btn btn-secondary" routerLink="/produtos">
+            Voltar
+        </button>
+    </div>
+</div>

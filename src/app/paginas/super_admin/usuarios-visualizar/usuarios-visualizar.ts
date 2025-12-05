@@ -51,9 +51,10 @@ export class PaginaUsuariosVisualizarSuperAdmin {
             return;
         }
 
-        this.produtosService.excluirProduto(this.produtoIdParaExcluir).subscribe(() => {
+        this.produtosService.excluirProdutoComJustificativa(this.produtoIdParaExcluir, this.justificativaExclusao).subscribe(() => {
             this.modalInstance.hide();
             this.visualizarProdutos();
+            alert('Produto excluído com sucesso! O vendedor foi notificado.');
         });
     }
 }

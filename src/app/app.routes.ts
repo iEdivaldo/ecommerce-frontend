@@ -25,6 +25,11 @@ export const routes: Routes = [
     { path: 'super_admin/usuarios/add', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios-add/usuarios-add').then(m => m.PaginaUsuariosAddSuperAdmin) },
     { path: 'super_admin/usuarios/visualizar/:id', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios-visualizar/usuarios-visualizar').then(m => m.PaginaUsuariosVisualizarSuperAdmin) },
 
+
+    // notificacoes
+    { path: 'notificacoes', canActivate: [authGuard], loadComponent: () => import('./paginas/notificacoes/notificacoes').then(m => m.Notificacoes) },
+
+    
     { path: '**', redirectTo: 'produtos' }
 
 ]

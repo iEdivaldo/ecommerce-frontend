@@ -17,6 +17,16 @@
           <button type="button" routerLink="/super_admin/usuarios" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isSuperAdmin()">Gerenciar Usuários</button>
           <button type="button" routerLink="/configuracoes" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual()">Configuração</button>
           <botao-logout></botao-logout>
+
+          <!-- Notificações -->
+          <button type="button" routerLink="/notificacoes" class="btn btn-outline-primary text-start mb-2 w-100 position-relative" *ngIf="usuarioAtual()">
+            🔔 Notificações 
+            <span *ngIf="contadorNotificacoes() > 0" class="badge bg-danger position-absolute top-0 end-0 translate-middle">
+              {{ contadorNotificacoes() }}
+            </span>
+          </button>
+          <!-- Notificações -->
+
           <!-- Modo escuro -->
           <button type="button" class="btn btn-outline-secondary text-start mt-4 w-100" (click)="alterarTema()">
             {{ tema.modoEscuro() ? '☀️ Modo Claro' : '🌙 Modo Escuro' }}
