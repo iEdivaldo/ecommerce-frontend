@@ -23,6 +23,7 @@ export const routes: Routes = [
     { path: 'super_admin/categorias', canActivate: [authGuard], loadComponent: () => import('./paginas/administracao/admin-categorias/admin-categorias').then(m => m.AdminCategorias) },
     { path: 'super_admin/usuarios', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios').then(m => m.PaginaUsuariosSuperAdmin) },
     { path: 'super_admin/usuarios/add', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios-add/usuarios-add').then(m => m.PaginaUsuariosAddSuperAdmin) },
+    { path: 'super_admin/usuarios/visualizar/:id', canActivate: [authGuard], loadComponent: () => import('./paginas/super_admin/usuarios-visualizar/usuarios-visualizar').then(m => m.PaginaUsuariosVisualizarSuperAdmin) },
 
     { path: '**', redirectTo: 'produtos' }
 

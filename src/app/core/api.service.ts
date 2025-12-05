@@ -12,6 +12,10 @@ export class ApiService {
         return this.http.get(`${this.base}/produtos`, { params });
     }
 
+    listarProdutosPorUsuario(usuarioId: number) {
+        return this.http.get(`${this.base}/administracao/produtos/usuario/${usuarioId}`);
+    }
+
     listarProdutosCategoria(categoriaId: any) {
         return this.http.get(`${this.base}/produtos/categoria/${categoriaId}`);
     }

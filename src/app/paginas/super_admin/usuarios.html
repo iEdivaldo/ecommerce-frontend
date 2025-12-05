@@ -9,7 +9,7 @@
           <th>Nome</th>
           <th>Email</th>
           <th>Perfil</th>
-          <th>Ações</th>
+          <th>Ação</th>
         </tr>
       </thead>
       <tbody>
@@ -18,9 +18,11 @@
           <td>{{ usuario.email }}</td>
           <td>{{ usuario.perfil }}</td>
           <td>
-            <!-- Aqui você pode adicionar botões para editar ou excluir usuários -->
-            <button class="btn btn-sm btn-warning me-2" (click)="editarUsuario(usuario.id)">Editar</button>
-            <button class="btn btn-sm btn-danger" (click)="excluirUsuario(usuario.id)">Excluir</button>
+            <!-- Aqui você pode adicionar botão para excluir usuários -->
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-danger" (click)="excluirUsuario(usuario.id)">Excluir</button>
+              <button class="btn btn-sm btn-info" (click)="visualizarProdutoDoUsuario(usuario.id)" routerLink="/super_admin/usuarios/visualizar">Visualizar os produtos</button>
+            </div>
         </tr>
       </tbody> 
     </table>

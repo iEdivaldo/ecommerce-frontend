@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
+import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-admin-produtos',
@@ -58,7 +59,9 @@ export class AdminProdutos {
   }
 
   carregarProdutos() {
-    this.api.listarProdutosAdministracao().subscribe((dados: any) => {
+    console.log("Carregando produtos do usuário:", this.usuarioAtual()!.id);
+    this.api.listarProdutosPorUsuario(this.usuarioAtual()!.id).subscribe((dados: any) => {
+      console.log("Produtos carregados:", dados);
       this.tabelaProdutos = dados.sort((a: any, b: any) => a.nomeProduto.localeCompare(b.nomeProduto));
       this.carregando = false;
       this.cdr.detectChanges();

@@ -1,0 +1,63 @@
+<!--Lista dos produtos do usuario-->
+<div class="container mt-4">
+  <h1 class="mb-4">Produtos do Usuário</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nome do Produto</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let produto of produtosDoUsuario">
+        <td>{{ produto.nomeProduto }}</td>
+        <td>{{ produto.descricaoProduto }}</td>
+        <td>{{ produto.precoProduto | currency:'BRL' }}</td>
+        <td>
+          <button class="btn btn-sm btn-danger" (click)="abrirModalExclusao(produto.id)">Excluir Produto</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!produtosDoUsuario.length" class="alert alert-info">
+    Nenhum produto encontrado para este usuário.
+  </div>
+
+  <div class="mt-3">
+    <button type="button" class="btn btn-secondary" routerLink="/super_admin/usuarios">Voltar para Gerenciamento de Usuários</button>
+  </div>
+
+<!-- Modal de Justificativa -->
+<div class="modal fade" id="modalJustificativa" tabindex="-1" aria-labelledby="modalJustificativaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalJustificativaLabel">Justificar Exclusão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="justificativa" class="form-label">Por favor, justifique a exclusão do produto:</label>
+        <textarea class="form-control" id="justificativa" [(ngModel)]="justificativaExclusao" rows="4" placeholder="Digite a justificativa aqui..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmarExclusao()" [disabled]="!justificativaExclusao.trim()">Confirmar Exclusão</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* Abrir popup pra justificar a exclusão */
+    function justificarExclusao() {
+        const justificativa = prompt("Por favor, insira a justificativa para a exclusão do produto:");
+        if (justificativa !== null) {
+        // Aqui você pode enviar a justificativa para o backend ou armazená-la conforme necessário
+        console.log("Justificativa para exclusão:", justificativa);
+        }
+    }
+</script>
