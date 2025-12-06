@@ -43,7 +43,9 @@
         </div>
         <div class="col-12 text-end">
             <h4>Total do Carrinho: {{ totalCarrinho | currency:'BRL'}}</h4>
-            <button class="btn btn-primary" (click)="finalizarCompra()" >Finalizar Compra</button>
+            <button class="btn btn-success btn-lg" routerLink="/checkout">
+              Finalizar Compra
+            </button>
         </div>
     </div>
 </div>

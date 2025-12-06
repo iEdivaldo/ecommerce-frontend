@@ -10,11 +10,20 @@
         <h2 class="fs-5 fw-bold mb-4" style="font-family: Baskervville;">Menu</h2>
         <div class="nav flex-column">
           <button type="button" routerLink="/produtos" class="btn btn-outline-primary text-start mb-2 w-100">Catálogo</button>
+          
+          <!-- CLIENTE -->
           <button type="button" routerLink="/carrinho" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && !isSuperAdmin()">Carrinho</button>
           <button type="button" routerLink="/pedidos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && !isSuperAdmin()">Meus Pedidos</button>
+          
+          <!-- ADMINISTRADOR -->
           <button type="button" routerLink="/administracao/produtos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin() && !isSuperAdmin()">Meus Produtos</button>
+          <button type="button" routerLink="/vendas" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin() && !isSuperAdmin()">💰 Minhas Vendas</button>
+          
+          <!-- SUPER_ADMIN -->
           <button type="button" routerLink="/super_admin/categorias" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && isSuperAdmin()">Todas as Categorias</button>
           <button type="button" routerLink="/super_admin/usuarios" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isSuperAdmin()">Gerenciar Usuários</button>
+          
+          <!-- TODOS -->
           <button type="button" routerLink="/configuracoes" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual()">Configuração</button>
           <botao-logout></botao-logout>
 

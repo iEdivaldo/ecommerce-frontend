@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { CarrinhoService } from './carrinho.service';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-carrinho',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, CurrencyPipe],
   templateUrl: './carrinho.html'
 })
 export class Carrinho {

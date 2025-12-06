@@ -6,6 +6,7 @@ export interface ItemCarrinho {
     id: number;
     nomeProduto: string;
     precoProduto: number;
+    imagemProduto?: string;
     quantidade: number;
 }
 
@@ -16,6 +17,10 @@ export class CarrinhoService {
     private itens = signal<ItemCarrinho[]>([]);
     
     itensCarrinho = this.itens.asReadonly();
+
+    get total() {
+        return () => this.calcularTotal();
+    }
 
     constructor() {
         effect(() => {
@@ -64,6 +69,7 @@ export class CarrinhoService {
                     id: produto.id,
                     nomeProduto: produto.nomeProduto,
                     precoProduto: produto.precoProduto,
+                    imagemProduto: produto.imagemProduto,
                     quantidade: 1
                 }
             ]);

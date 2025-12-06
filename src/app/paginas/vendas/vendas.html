@@ -1,0 +1,152 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Minhas Vendas</h2>
+
+  @if (carregando()) {
+    <div class="text-center py-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+    </div>
+  } @else if (pedidos().length === 0) {
+    <div class="alert alert-info">
+      <p class="mb-0">Você ainda não possui vendas.</p>
+    </div>
+  } @else {
+    @for (pedido of pedidos(); track pedido.id; let i = $index) {
+      <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center" 
+             style="cursor: pointer;"
+             (click)="togglePedido(pedido.id)">
+          <div>
+            <strong>Pedido #{{ pedido.id }}</strong>
+            <small class="text-muted ms-2">{{ formatarData(pedido.criadoEm) }}</small>
+            <br>
+            <small class="text-muted">Cliente: {{ pedido.cliente?.nome }}</small>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge" [ngClass]="getStatusClass(pedido.status)">
+              {{ getStatusTexto(pedido.status) }}
+            </span>
+            <!-- ✅ NOVO: Ícone de expandir/colapsar -->
+            <i class="bi" [ngClass]="pedidoExpandido(pedido.id) ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+          </div>
+        </div>
+        
+        <!-- ✅ NOVO: Conteúdo colapsável -->
+        @if (pedidoExpandido(pedido.id)) {
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h6 class="mb-0">Seus Produtos neste Pedido:</h6>
+              <button class="btn btn-sm btn-primary" (click)="abrirModalStatus(pedido); $event.stopPropagation()">
+                Atualizar Status
+              </button>
+            </div>
+            
+            @for (item of pedido.itens; track item.id) {
+              <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                <div class="d-flex align-items-center">
+                  @if (item.produto?.imagemProduto) {
+                    <img [src]="item.produto.imagemProduto" 
+                         [alt]="item.produto.nomeProduto" 
+                         class="me-3"
+                         style="width: 60px; height: 60px; object-fit: cover;">
+                  }
+                  <div>
+                    <div>{{ item.produto?.nomeProduto }}</div>
+                    <small class="text-muted">Quantidade: {{ item.quantidade }}</small>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <div>R$ {{ item.precoUnitario?.toFixed(2) }}</div>
+                  <small class="text-muted">Subtotal: R$ {{ (item.precoUnitario * item.quantidade).toFixed(2) }}</small>
+                </div>
+              </div>
+            }
+
+            <div class="mt-3 text-end">
+              <strong>Total da sua venda: R$ {{ calcularTotalVenda(pedido).toFixed(2) }}</strong>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-md-6">
+                <h6>Endereço de Entrega:</h6>
+                <p class="mb-0 small">
+                  {{ pedido.endereco?.logradouro }}, {{ pedido.endereco?.numero }}
+                  @if (pedido.endereco?.complemento) {
+                    <span> - {{ pedido.endereco.complemento }}</span>
+                  }
+                  <br>
+                  {{ pedido.endereco?.bairro }}, {{ pedido.endereco?.cidade }}/{{ pedido.endereco?.estado }}
+                  <br>
+                  CEP: {{ pedido.endereco?.cep }}
+                </p>
+              </div>
+              <div class="col-md-6">
+                <h6>Pagamento:</h6>
+                <p class="mb-0 small">{{ pedido.metodoPagamento }}</p>
+                @if (pedido.pagoEm) {
+                  <small class="text-success">Pago em: {{ formatarData(pedido.pagoEm) }}</small>
+                }
+              </div>
+            </div>
+
+            @if (pedido.enviadoEm) {
+              <div class="alert alert-info mt-3 mb-0">
+                <small>Enviado em: {{ formatarData(pedido.enviadoEm) }}</small>
+              </div>
+            }
+
+            @if (pedido.entregueEm) {
+              <div class="alert alert-success mt-3 mb-0">
+                <small>Entregue em: {{ formatarData(pedido.entregueEm) }}</small>
+              </div>
+            }
+
+            @if (pedido.canceladoEm) {
+              <div class="alert alert-danger mt-3 mb-0">
+                <small>Cancelado em: {{ formatarData(pedido.canceladoEm) }}</small>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
+
+<!-- Modal de Atualização de Status -->
+@if (pedidoSelecionado()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Atualizar Status - Pedido #{{ pedidoSelecionado().id }}</h5>
+          <button type="button" class="btn-close" (click)="fecharModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Status Atual:</label>
+            <p><span class="badge" [ngClass]="getStatusClass(pedidoSelecionado().status)">
+              {{ getStatusTexto(pedidoSelecionado().status) }}
+            </span></p>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Novo Status:</label>
+            <select class="form-select" [(ngModel)]="novoStatus">
+              @for (status of statusDisponiveis; track status.valor) {
+                <option [value]="status.valor">{{ status.texto }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="atualizarStatus()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

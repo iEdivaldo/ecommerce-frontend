@@ -14,7 +14,6 @@ export const routes: Routes = [
 
     // autenticacao
     { path: 'carrinho', canActivate: [authGuard], loadComponent: () => import('./paginas/carrinho/carrinho').then(m => m.Carrinho) },
-    { path: 'checkout', canActivate: [authGuard], loadComponent: () => import('./paginas/checkout/checkout').then(m => m.Checkout) },
     { path: 'administracao/produtos', canActivate: [AdminGuard], loadComponent: () => import('./paginas/administracao/admin-produtos').then(m => m.AdminProdutos) },
     { path: 'configuracoes', canActivate: [authGuard], loadComponent: () => import('./paginas/configuracoes/configuracoes-usuario').then(m => m.ConfiguracoesUsuario) },
 
@@ -29,7 +28,12 @@ export const routes: Routes = [
     // notificacoes
     { path: 'notificacoes', canActivate: [authGuard], loadComponent: () => import('./paginas/notificacoes/notificacoes').then(m => m.Notificacoes) },
 
+    // pedidos
+    { path: 'checkout', canActivate: [authGuard], loadComponent: () => import('./paginas/checkout/checkout').then(m => m.PaginaCheckoutComponent) },
+    { path: 'meus-pedidos', canActivate: [authGuard], loadComponent: () => import('./paginas/pedidos/pedidos').then(m => m.PedidosPagina) },
+    { path: 'vendas', canActivate: [authGuard], loadComponent: () => import('./paginas/vendas/vendas').then(m => m.VendasPagina) },
     
+
     { path: '**', redirectTo: 'produtos' }
 
 ]

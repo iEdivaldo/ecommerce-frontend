@@ -85,4 +85,44 @@ export class ApiService {
     marcarTodasNotificacoesComoLidas(): Observable<any> {
         return this.http.put(`${this.base}/notificacoes/marcar-todas-como-lidas`, {});
     }
+
+    // Pedidos
+    criarPedido(dto: any): Observable<any> {
+        return this.http.post(`${this.base}/pedidos`, dto);
+    }
+
+    listarPedidos(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.base}/pedidos/meus-pedidos`);
+    }
+
+    listarMinhasVendas(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.base}/pedidos/minhas-vendas`);
+    }
+
+    buscarPedido(id: number): Observable<any> {
+        return this.http.get<any>(`${this.base}/pedidos/${id}`);
+    }
+
+    atualizarStatusPedido(id: number, novoStatus: string): Observable<any> {
+        return this.http.put(`${this.base}/pedidos/${id}/status`, `"${novoStatus}"`, {
+            headers: { 'Content-Type': 'application/json' }});
+    }
+
+    // Endereços
+    listarEnderecos(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.base}/enderecos`);
+    }
+
+    criarEndereco(payload: any): Observable<any> {
+        return this.http.post(`${this.base}/enderecos`, payload);
+    }
+
+    atualizarEndereco(id: number, payload: any): Observable<any> {
+        return this.http.put(`${this.base}/enderecos/${id}`, payload);
+    }
+
+    excluirEndereco(id: number): Observable<any> {
+        return this.http.delete(`${this.base}/enderecos/${id}`);
+    }
+
 }
