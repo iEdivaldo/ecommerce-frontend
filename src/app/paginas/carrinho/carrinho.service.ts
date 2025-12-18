@@ -97,6 +97,12 @@ export class CarrinhoService {
     }
 
     adicionarItem(produto: any) {
+        // Verificar se o produto está esgotado
+        if (!produto.estoqueProduto || produto.estoqueProduto === 0) {
+            this.mostrarAlerta('danger', 'Este produto está esgotado.');
+            return;
+        }
+
         const itensAtuais = this.itens();
         const itemExistente = itensAtuais.find(item => item.id === produto.id);
         if (itemExistente) {

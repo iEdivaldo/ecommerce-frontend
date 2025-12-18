@@ -23,7 +23,7 @@ export class ListaProdutos {
   listasCategorias: any[] = [];
   carregando = true;
   mensagens = false;
-  categoriaSelecionada: any;
+  categoriaSelecionada: string = '';
   filtroPesquisa: string = '';
   todosProdutos: any[] = [];
   ordenacaoSelecionada: string = '';
@@ -104,6 +104,18 @@ export class ListaProdutos {
   }
 
   adicionarAoCarrinho(produto: any) {
+    if (!this.autenticacao.autenticado()) {
+      if (confirm('Você precisa estar logado para adicionar produtos ao carrinho. Deseja fazer login agora?')) {
+        window.location.href = '/login';
+      }
+      return;
+    }
+
+    if (produto.estoqueProduto === 0) {
+      alert('Este produto está esgotado no momento.');
+      return;
+    }
+
     console.log('Adicionando ao carrinho:', produto);
     this.carrinho.adicionarItem(produto);
     this.mostrarAlerta.set(true);
