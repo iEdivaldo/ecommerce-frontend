@@ -24,7 +24,7 @@
         <label for="sku">SKU</label>
         <div class="input-group">
           <input [(ngModel)]="form.codigoProduto" name="sku" class="form-control" readonly required="">
-          <button type="button" class="btn btn-outline-secondary" (click)="gerarSku()">Gerar SKU</button>
+          <button type="button" class="btn btn-outline-secondary" name="gerarSku" (click)="gerarSku()">Gerar SKU</button>
         </div>
       </div>
       <div class="col-12">
@@ -33,7 +33,7 @@
       </div>
       <div class="col-6">
         <label for="estoque">Estoque</label>
-        <input [(ngModel)]="form.estoqueProduto" name="estoque" type="number" class="form-control" required>
+        <input [(ngModel)]="form.estoqueProduto" name="estoque" type="number" min="0" class="form-control" required>
       </div>
       
       <div class="col-12">
@@ -58,7 +58,7 @@
       </div>
 
       <div class="col-12 d-flex justify-content-center mt-4 gap-2">
-        <button class="btn btn-success px-5 py-3 fs-4" style="font-weight:bold; letter-spacing:1px;" [disabled]="uploadandoImagem">
+        <button class="btn btn-success px-5 py-3 fs-4" name="submit" style="font-weight:bold; letter-spacing:1px;" [disabled]="uploadandoImagem">
           {{ editando ? 'Editar Produto' : 'Adicionar Produto' }}
         </button>
 

@@ -61,6 +61,14 @@ export class ListaProdutos {
       const termo = this.filtroPesquisa.toLowerCase();
       base = base.filter(p => p.nomeProduto.toLowerCase().includes(termo) || (p.descricaoProduto && p.descricaoProduto.toLowerCase().includes(termo)));
     }
+
+    // Manter produtos esgotados no final
+    base.sort((a, b) => {
+      if (a.estoqueProduto === 0 && b.estoqueProduto > 0) return 1;
+      if (a.estoqueProduto > 0 && b.estoqueProduto === 0) return -1;
+      return 0;
+    });
+
     this.produtos = base;
     this.cdr.detectChanges();
   }
@@ -75,13 +83,29 @@ export class ListaProdutos {
 
   ordenarProdutos(criterio: string) {
     if (criterio === 'precoAsc') {
-      this.produtos.sort((a, b) => a.precoProduto - b.precoProduto);
+      this.produtos.sort((a, b) => {
+        if (a.estoqueProduto === 0 && b.estoqueProduto > 0) return 1;
+        if (a.estoqueProduto > 0 && b.estoqueProduto === 0) return -1;
+        return a.precoProduto - b.precoProduto;
+      });
     } else if (criterio === 'precoDesc') {
-      this.produtos.sort((a, b) => b.precoProduto - a.precoProduto);
+      this.produtos.sort((a, b) => {
+        if (a.estoqueProduto === 0 && b.estoqueProduto > 0) return 1;
+        if (a.estoqueProduto > 0 && b.estoqueProduto === 0) return -1;
+        return b.precoProduto - a.precoProduto;
+      });
     } else if (criterio === 'nomeAsc') {
-      this.produtos.sort((a, b) => a.nomeProduto.localeCompare(b.nomeProduto));
+      this.produtos.sort((a, b) => {
+        if (a.estoqueProduto === 0 && b.estoqueProduto > 0) return 1;
+        if (a.estoqueProduto > 0 && b.estoqueProduto === 0) return -1;
+        return a.nomeProduto.localeCompare(b.nomeProduto);
+      });
     } else if (criterio === 'nomeDesc') {
-      this.produtos.sort((a, b) => b.nomeProduto.localeCompare(a.nomeProduto));
+      this.produtos.sort((a, b) => {
+        if (a.estoqueProduto === 0 && b.estoqueProduto > 0) return 1;
+        if (a.estoqueProduto > 0 && b.estoqueProduto === 0) return -1;
+        return b.nomeProduto.localeCompare(a.nomeProduto);
+      });
     } else if (criterio === '') {
       this.produtos = [...this.todosProdutos];
     }
@@ -97,8 +121,14 @@ export class ListaProdutos {
 
   carregarDados() {
     this.api.listarProdutos().subscribe((dados: any) => {
-      this.produtos = dados;
-      this.todosProdutos = dados;
+      // Ordenar produtos: disponíveis primeiro, esgotados no final
+      const produtosOrdenados = dados.sort((a: any, b: any) => {
+        if (a.estoqueProduto === 0 && b.estoqueProduto > 0) return 1;
+        if (a.estoqueProduto > 0 && b.estoqueProduto === 0) return -1;
+        return 0;
+      });
+      this.produtos = produtosOrdenados;
+      this.todosProdutos = produtosOrdenados;
       this.cdr.detectChanges();
     });
   }

@@ -68,8 +68,18 @@ export class DetalhesProduto {
       this.mostrarAlerta.set(true);
       setTimeout(() => {
         this.mostrarAlerta.set(false);
-      }, 3000);
+      }, 5000);
     }
+  }
+
+  irParaCarrinho() {
+    this.mostrarAlerta.set(false);
+    this.router.navigate(['/carrinho']);
+  }
+
+  continuarComprando() {
+    this.mostrarAlerta.set(false);
+    this.router.navigate(['/produtos']);
   }
 
   diminuirQuantidade() {

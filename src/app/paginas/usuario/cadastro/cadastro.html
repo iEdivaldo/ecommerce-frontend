@@ -1,7 +1,7 @@
 <div class="container py-5" style="max-width: 520px;">
 <h1 class="h4 mb-3">Criar conta</h1>
 <form (ngSubmit)="registrar()">
-    <div class="mb-3">
+    <div class="mb-3"> 
         <label class="form-label">Nome</label>
         <input [(ngModel)]="nome" name="nome" class="form-control" required />
     </div>
@@ -19,7 +19,7 @@
         <label class="form-label">Confirmação de Senha</label>
         <input [(ngModel)]="confirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required />
     </div>
-    <button class="btn btn-success w-100" [disabled]="carregando">Cadastrar</button>
+    <button class="btn btn-success w-100" name="submit" [disabled]="carregando">Cadastrar</button>
     <div *ngIf="erro" class="alert alert-danger mt-3">{{erro}}</div>
 </form>
 </div>

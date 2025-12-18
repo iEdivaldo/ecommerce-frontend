@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
 import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-produtos',
@@ -75,7 +76,7 @@ export class AdminProdutos {
   editarProduto(id: number, produto: any) {
     this.editando = true;
     this.idProdutoEditando = id;
-    this.form = { ...produto, categoriaId: produto.categoria?.id || produto.categoriaId };
+    this.form = { ...produto, categoriaId: String(produto.categoria?.id || produto.categoriaId) };
     if (produto.imagemUrl) {
       this.imagemPreview = 'http://localhost:8080' + produto.imagemUrl;
     }
@@ -88,7 +89,7 @@ export class AdminProdutos {
       return;
     }
 
-    if (!this.form.nomeProduto || !this.form.precoProduto || !this.form.codigoProduto || !this.form.estoqueProduto) {
+    if (!this.form.nomeProduto || !this.form.precoProduto || !this.form.codigoProduto || this.form.estoqueProduto === '' || this.form.estoqueProduto === null) {
       this.msg = 'Por favor, preencha todos os campos obrigatórios.';
       return;
     }
@@ -190,7 +191,7 @@ export class AdminProdutos {
     formData.append('file', this.imagemSelecionada);
 
     try {
-      const response: any = await this.api.uploadImagem(formData).toPromise();
+      const response: any = await firstValueFrom(this.api.uploadImagem(formData));
       this.uploadandoImagem = false;
       return response.url;
     } catch (erro) {
