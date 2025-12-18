@@ -26,8 +26,12 @@ export class AdminProdutos {
     descricaoProduto: '',
     estoqueProduto: '',
     produtoAtivo: true,
-    categoriaId: ''
+    categoriaId: '',
+    imagemUrl: ''
   };
+  imagemSelecionada: File | null = null;
+  imagemPreview: string | null = null;
+  uploadandoImagem = false;
   msg = '';
   tabelaProdutos: any[] = [];
   listasCategorias: any[] = [];
@@ -72,10 +76,13 @@ export class AdminProdutos {
     this.editando = true;
     this.idProdutoEditando = id;
     this.form = { ...produto, categoriaId: produto.categoria?.id || produto.categoriaId };
+    if (produto.imagemUrl) {
+      this.imagemPreview = 'http://localhost:8080' + produto.imagemUrl;
+    }
     this.cdr.detectChanges();
   }  
   
-  salvarProduto() {
+  async salvarProduto() {
     if (!this.form.categoriaId) {
       this.msg = 'Por favor, selecione uma categoria.';
       return;
@@ -84,6 +91,14 @@ export class AdminProdutos {
     if (!this.form.nomeProduto || !this.form.precoProduto || !this.form.codigoProduto || !this.form.estoqueProduto) {
       this.msg = 'Por favor, preencha todos os campos obrigatórios.';
       return;
+    }
+
+    // Upload da imagem primeiro, se houver
+    if (this.imagemSelecionada) {
+      const imagemUrl = await this.uploadImagem();
+      if (imagemUrl) {
+        this.form.imagemUrl = imagemUrl;
+      }
     }
 
     const payload: { [key: string]: any; categoriaId?: string } = { 
@@ -115,8 +130,11 @@ export class AdminProdutos {
       descricaoProduto: '',
       estoqueProduto: '',
       produtoAtivo: true,
-      categoriaId: ''
+      categoriaId: '',
+      imagemUrl: ''
     };
+    this.imagemSelecionada = null;
+    this.imagemPreview = null;
     this.cdr.detectChanges();
   }
 
@@ -147,5 +165,46 @@ export class AdminProdutos {
       this.carregando = false;
       this.cdr.detectChanges();
     });
+  }
+
+  onImagemSelecionada(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.imagemSelecionada = file;
+      
+      // Preview da imagem
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagemPreview = e.target.result;
+        this.cdr.detectChanges();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  async uploadImagem(): Promise<string | null> {
+    if (!this.imagemSelecionada) return null;
+
+    this.uploadandoImagem = true;
+    const formData = new FormData();
+    formData.append('file', this.imagemSelecionada);
+
+    try {
+      const response: any = await this.api.uploadImagem(formData).toPromise();
+      this.uploadandoImagem = false;
+      return response.url;
+    } catch (erro) {
+      console.error('Erro ao fazer upload:', erro);
+      this.uploadandoImagem = false;
+      alert('Erro ao fazer upload da imagem');
+      return null;
+    }
+  }
+
+  removerImagem() {
+    this.imagemSelecionada = null;
+    this.imagemPreview = null;
+    this.form.imagemUrl = '';
+    this.cdr.detectChanges();
   }
 }

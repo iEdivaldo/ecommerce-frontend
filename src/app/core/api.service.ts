@@ -130,4 +130,9 @@ export class ApiService {
         return this.http.delete(`${this.base}/enderecos/${id}`);
     }
 
+    // Upload de imagens
+    uploadImagem(formData: FormData): Observable<any> {
+        return this.http.post(`${this.base}/upload/imagem`, formData);
+    }
+
 }
