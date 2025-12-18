@@ -41,10 +41,24 @@
                 </tbody>
             </table>
         </div>
+        <div *ngIf="alerta().tipo" class="alert alert-{{alerta().tipo}} alert-dismissible fade show" role="alert">
+            {{ alerta().mensagem }}
+            <button type="button" class="btn-close" (click)="carrinho.limparAlerta()" aria-label="Close"></button>
+        </div>
+        <div *ngIf="!carrinhoValido()" class="alert alert-danger mb-3">
+            <strong>⚠️ Ajuste as quantidades!</strong><br>
+            Os seguintes itens excedem o estoque disponível:
+            <ul class="mb-0 mt-2">
+                <li *ngFor="let produto of produtosComEstoqueInsuficiente()">{{ produto }}</li>
+            </ul>
+        </div>
         <div class="col-12 text-end">
             <h4>Total do Carrinho: {{ totalCarrinho | currency:'BRL'}}</h4>
-            <button class="btn btn-success btn-lg" routerLink="/checkout">
-              Finalizar Compra
+            <button 
+                class="btn btn-success btn-lg" 
+                routerLink="/checkout"
+                [disabled]="!carrinhoValido()">
+                Finalizar Compra
             </button>
         </div>
     </div>

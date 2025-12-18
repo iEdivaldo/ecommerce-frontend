@@ -13,7 +13,7 @@
           
           <!-- CLIENTE -->
           <button type="button" routerLink="/carrinho" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && !isSuperAdmin()">Carrinho</button>
-          <button type="button" routerLink="/pedidos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && !isSuperAdmin()">Meus Pedidos</button>
+          <button type="button" routerLink="/meus-pedidos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && !isAdmin() && !isSuperAdmin()">Meus Pedidos</button>
           
           <!-- ADMINISTRADOR -->
           <button type="button" routerLink="/administracao/produtos" class="btn btn-outline-primary text-start mb-2 w-100" *ngIf="usuarioAtual() && isAdmin() && !isSuperAdmin()">Meus Produtos</button>

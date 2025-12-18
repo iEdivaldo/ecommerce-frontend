@@ -13,7 +13,8 @@ export class PedidosPagina {
 
     pedidos = signal<any[]>([]);
     carregando = signal(true);
-
+    pedidosExpandidos = signal<Set<number>>(new Set());
+    
     ngOnInit() {
         this.carregarPedidos();
     }
@@ -62,5 +63,19 @@ export class PedidosPagina {
             hour: '2-digit',
             minute: '2-digit'
         });
+    }
+
+    togglePedido(pedidoId: number) {
+        const expandidos = new Set(this.pedidosExpandidos());
+        if (expandidos.has(pedidoId)) {
+            expandidos.delete(pedidoId);
+        } else {
+            expandidos.add(pedidoId);
+        }
+        this.pedidosExpandidos.set(expandidos);
+    }
+
+    pedidoExpandido(pedidoId: number): boolean {
+        return this.pedidosExpandidos().has(pedidoId);
     }
 }

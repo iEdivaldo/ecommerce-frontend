@@ -43,11 +43,14 @@ export class VendasPagina {
     }
 
     abrirModalStatus(pedido: any) {
+        if (pedido.status === 'CANCELADO' || pedido.status === 'ENTREGUE') {
+           alert ('Este pedido não pode ser atualizado.');
+           return;
+        }
         this.pedidoSelecionado.set(pedido);
         this.novoStatus.set(pedido.status);
     }
 
-    // ✅ NOVO: Método para expandir/colapsar
     togglePedido(pedidoId: number) {
         const expandidos = new Set(this.pedidosExpandidos());
         if (expandidos.has(pedidoId)) {
@@ -58,7 +61,6 @@ export class VendasPagina {
         this.pedidosExpandidos.set(expandidos);
     }
 
-    // ✅ NOVO: Verificar se está expandido
     pedidoExpandido(pedidoId: number): boolean {
         return this.pedidosExpandidos().has(pedidoId);
     }

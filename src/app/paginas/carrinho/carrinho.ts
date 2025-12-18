@@ -9,9 +9,13 @@ import { RouterLink, RouterModule } from '@angular/router';
   templateUrl: './carrinho.html'
 })
 export class Carrinho {
-  private carrinho = inject(CarrinhoService)
+  carrinho = inject(CarrinhoService)
   loading = false;
   carrinhoItems = this.carrinho.itensCarrinho;
+  alerta = this.carrinho.alerta;
+  produtosComEstoqueInsuficiente = this.carrinho.produtosComEstoqueInsuficiente;
+  carrinhoValido = this.carrinho.carrinhoValido;
+  private intervaloAtualizacao?: number;
 
   get totalCarrinho(): number {
     return this.carrinho.calcularTotal();
@@ -19,6 +23,10 @@ export class Carrinho {
 
   ngOnInit() {
     this.carrinho.itensCarrinho();
+    this.carrinho.atualizarEstoqueTodosProdutos();
+    this.intervaloAtualizacao = window.setInterval(() => {
+      this.carrinho.atualizarEstoqueTodosProdutos();
+    }, 5000);
   }
 
   removerItem(id: number) {

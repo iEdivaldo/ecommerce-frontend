@@ -89,7 +89,7 @@ export class ListaProdutos {
   }
 
   carregarDadosCategorias() {
-    this.api.listarCategorias().subscribe((dados: any) => {
+    this.api.listarCategoriasPublicas().subscribe((dados: any) => {
       this.listasCategorias = dados.sort((a: { nome: string }, b: { nome: string }) => a.nome.localeCompare(b.nome));
       this.cdr.detectChanges();
     });

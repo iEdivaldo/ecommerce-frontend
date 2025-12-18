@@ -59,6 +59,11 @@ export class ApiService {
         return this.http.delete(`${this.base}/administracao/categorias/${id}`);
     }
 
+    // publico
+    listarCategoriasPublicas(params: any = {}) {
+        return this.http.get(`${this.base}/produtos/categorias`, { params });
+    }
+
     // notificacoes
     excluirProdutoComJustificativa(id: number, justificativa: string): Observable<any> {
         return this.http.delete(`${this.base}/super_admin/produto/${id}`, {

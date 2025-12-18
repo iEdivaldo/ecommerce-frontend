@@ -152,20 +152,25 @@
     </div>
   }
 
-  <!-- Botões de Navegação -->
   <div class="d-flex justify-content-between mb-4">
-    <button class="btn btn-secondary" (click)="voltarEtapa()" [disabled]="etapaAtual() === 1">
-      Voltar
-    </button>
+      @if (etapaAtual() === 1) {
+        <a class="btn btn-secondary" routerLink="/carrinho">
+          ← Voltar ao Carrinho
+        </a>
+      } @else {
+        <button class="btn btn-secondary" (click)="voltarEtapa()">
+          Voltar
+        </button>
+      }
 
-    @if (etapaAtual() < 3) {
-      <button class="btn btn-primary" (click)="proximaEtapa()">
-        Próximo
-      </button>
-    } @else {
-      <button class="btn btn-success" (click)="finalizarPedido()" [disabled]="processandoPedido()">
-        {{ processandoPedido() ? 'Processando...' : 'Finalizar Pedido' }}
-      </button>
-    }
+      @if (etapaAtual() < 3) {
+        <button class="btn btn-primary" (click)="proximaEtapa()">
+          Próximo
+        </button>
+      } @else {
+        <button class="btn btn-success" (click)="finalizarPedido()" [disabled]="processandoPedido()">
+          {{ processandoPedido() ? 'Processando...' : 'Finalizar Pedido' }}
+        </button>
+      }
   </div>
 </div>

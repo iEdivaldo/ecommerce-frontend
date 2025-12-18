@@ -1,13 +1,13 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ApiService } from "../../core/api.service";
 import { CarrinhoService } from "../carrinho/carrinho.service";
 
 @Component({
   selector: 'pagina-checkout',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './checkout.html'
 })
 export class PaginaCheckoutComponent {
