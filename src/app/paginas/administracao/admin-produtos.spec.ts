@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideZonelessChangeDetection, signal } from '@angular/core';
+import { signal } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AdminProdutos } from './admin-produtos';
@@ -18,24 +18,24 @@ describe('AdminProdutos', () => {
   const mockProdutos = [
     { 
       id: 1, 
-      nomeProduto: 'Produto A', 
+      nomeProduto: 'Produto 1', 
       precoProduto: 100, 
       codigoProduto: 'ABC123', 
       descricaoProduto: 'Desc A',
       estoqueProduto: 10,
-      slugProduto: 'produto-a-abc123',
+      slugProduto: 'produto-1-abc123',
       produtoAtivo: true,
       categoria: { id: 1, nome: 'Categoria 1' },
       imagemUrl: '/uploads/produtos/imagem1.png'
     },
     { 
       id: 2, 
-      nomeProduto: 'Produto B', 
+      nomeProduto: 'Produto 2', 
       precoProduto: 50, 
       codigoProduto: 'DEF456', 
       descricaoProduto: 'Desc B',
       estoqueProduto: 5,
-      slugProduto: 'produto-b-def456',
+      slugProduto: 'produto-2-def456',
       produtoAtivo: true,
       categoria: { id: 2, nome: 'Categoria 2' }
     }
@@ -47,6 +47,8 @@ describe('AdminProdutos', () => {
   ];
 
   beforeEach(async () => {
+    spyOn(console, 'log');
+    
     const authServiceSpy = jasmine.createSpyObj('AuthService', [], { 
       usuario: signal(mockUsuario) 
     });
@@ -67,7 +69,6 @@ describe('AdminProdutos', () => {
     await TestBed.configureTestingModule({
       imports: [AdminProdutos, HttpClientTestingModule, RouterTestingModule],
       providers: [
-        provideZonelessChangeDetection(),
         { provide: AuthService, useValue: authServiceSpy },
         { provide: ApiService, useValue: apiServiceSpy }
       ]
@@ -91,7 +92,7 @@ describe('AdminProdutos', () => {
     setTimeout(() => {
       expect(apiService.listarProdutosPorUsuario).toHaveBeenCalledWith(1);
       expect(component.tabelaProdutos.length).toBe(2);
-      expect(component.tabelaProdutos[0].nomeProduto).toBe('Produto A');
+      expect(component.tabelaProdutos[0].nomeProduto).toBe('Produto 1');
       done();
     }, 0);
   });
@@ -113,8 +114,8 @@ describe('AdminProdutos', () => {
     fixture.detectChanges();
 
     setTimeout(() => {
-      expect(component.tabelaProdutos[0].nomeProduto).toBe('Produto A');
-      expect(component.tabelaProdutos[1].nomeProduto).toBe('Produto B');
+      expect(component.tabelaProdutos[0].nomeProduto).toBe('Produto 1');
+      expect(component.tabelaProdutos[1].nomeProduto).toBe('Produto 2');
       done();
     }, 0);
   });
@@ -178,7 +179,7 @@ describe('AdminProdutos', () => {
     
     expect(component.editando).toBeTruthy();
     expect(component.idProdutoEditando).toBe(1);
-    expect(component.form.nomeProduto).toBe('Produto A');
+    expect(component.form.nomeProduto).toBe('Produto 1');
     expect(component.form.categoriaId).toBe('1');
 
     component.form.nomeProduto = 'Produto Editado';

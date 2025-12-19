@@ -4,7 +4,6 @@ import { AuthService } from '../../../core/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideZonelessChangeDetection } from '@angular/core';
 
 describe('Cadastro', () => {
   let component: Cadastro;
@@ -13,13 +12,14 @@ describe('Cadastro', () => {
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
+    spyOn(console, 'log');
+    
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['registrar', 'salvarToken']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
     await TestBed.configureTestingModule({
       imports: [Cadastro, HttpClientTestingModule],
       providers: [
-        provideZonelessChangeDetection(),
         { provide: AuthService, useValue: authServiceSpy },
         { provide: Router, useValue: routerSpy }
       ]

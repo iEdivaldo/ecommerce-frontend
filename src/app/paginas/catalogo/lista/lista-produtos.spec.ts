@@ -5,7 +5,7 @@ import { AuthService } from '../../../core/auth.service';
 import { CarrinhoService } from '../../carrinho/carrinho.service';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideZonelessChangeDetection, signal } from '@angular/core';
+import { signal } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ListaProdutos', () => {
@@ -16,9 +16,9 @@ describe('ListaProdutos', () => {
   let carrinhoService: jasmine.SpyObj<CarrinhoService>;
 
   const mockProdutos = [
-    { id: 1, nomeProduto: 'Produto A', precoProduto: 100, estoqueProduto: 10, categoria: { id: 1, nome: 'Categoria 1' }, descricaoProduto: 'Desc A' },
-    { id: 2, nomeProduto: 'Produto B', precoProduto: 50, estoqueProduto: 0, categoria: { id: 2, nome: 'Categoria 2' }, descricaoProduto: 'Desc B' },
-    { id: 3, nomeProduto: 'Produto C', precoProduto: 200, estoqueProduto: 5, categoria: { id: 1, nome: 'Categoria 1' }, descricaoProduto: 'Desc C' }
+    { id: 1, nomeProduto: 'Produto 1', precoProduto: 100, estoqueProduto: 10, categoria: { id: 1, nome: 'Categoria 1' }, descricaoProduto: 'Desc A' },
+    { id: 2, nomeProduto: 'Produto 2', precoProduto: 50, estoqueProduto: 0, categoria: { id: 2, nome: 'Categoria 2' }, descricaoProduto: 'Desc B' },
+    { id: 3, nomeProduto: 'Produto 3', precoProduto: 200, estoqueProduto: 5, categoria: { id: 1, nome: 'Categoria 1' }, descricaoProduto: 'Desc C' }
   ];
 
   const mockCategorias = [
@@ -27,6 +27,8 @@ describe('ListaProdutos', () => {
   ];
 
   beforeEach(async () => {
+    spyOn(console, 'log');
+    
     const apiServiceSpy = jasmine.createSpyObj('ApiService', ['listarProdutos', 'listarCategoriasPublicas']);
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['autenticado'], { usuario: signal(null) });
     const carrinhoServiceSpy = jasmine.createSpyObj('CarrinhoService', ['adicionarItem']);
@@ -34,7 +36,6 @@ describe('ListaProdutos', () => {
     await TestBed.configureTestingModule({
       imports: [ListaProdutos, HttpClientTestingModule, RouterTestingModule],
       providers: [
-        provideZonelessChangeDetection(),
         { provide: ApiService, useValue: apiServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
         { provide: CarrinhoService, useValue: carrinhoServiceSpy }

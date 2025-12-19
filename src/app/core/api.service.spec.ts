@@ -30,14 +30,14 @@ describe('ApiService - Testes de Integração', () => {
       const mockProdutos = [
         { 
           id: 1, 
-          nomeProduto: 'Produto A', 
+          nomeProduto: 'Produto 1', 
           precoProduto: 100,
           estoqueProduto: 10,
           categoria: { id: 1, nome: 'Categoria 1' }
         },
         { 
           id: 2, 
-          nomeProduto: 'Produto B', 
+          nomeProduto: 'Produto 2', 
           precoProduto: 50,
           estoqueProduto: 5,
           categoria: { id: 2, nome: 'Categoria 2' }
@@ -57,15 +57,15 @@ describe('ApiService - Testes de Integração', () => {
 
     it('deve criar produto com estrutura correta (categoria como objeto)', () => {
       const novoProduto = {
-        nomeProduto: 'Notebook Dell',
-        slugProduto: 'notebook-dell-ABC123',
+        nomeProduto: 'Produto 1',
+        slugProduto: 'produto-1-ABC123',
         precoProduto: '3500',
         codigoProduto: 'ABC123',
-        descricaoProduto: 'Notebook potente para desenvolvimento',
+        descricaoProduto: 'Descrição do Produto 1',
         estoqueProduto: '10',
         produtoAtivo: true,
         categoria: { id: 1 },
-        imagemUrl: '/uploads/produtos/notebook.jpg'
+        imagemUrl: '/uploads/produtos/produto-1.jpg'
       };
 
       const mockResposta = { id: 1, ...novoProduto };
@@ -179,21 +179,21 @@ describe('ApiService - Testes de Integração', () => {
       const mockProdutos = [
         { 
           id: 1, 
-          nomeProduto: 'Produto A', 
+          nomeProduto: 'Produto 1', 
           precoProduto: 100,
           estoqueProduto: 10,
           categoria: { id: 1, nome: 'Categoria 1' }
         },
         { 
           id: 2, 
-          nomeProduto: 'Produto B', 
+          nomeProduto: 'Produto 2', 
           precoProduto: 50,
           estoqueProduto: 0,
           categoria: { id: 2, nome: 'Categoria 2' }
         },
         { 
           id: 3, 
-          nomeProduto: 'Produto C', 
+          nomeProduto: 'Produto 3', 
           precoProduto: 200,
           estoqueProduto: 5,
           categoria: { id: 1, nome: 'Categoria 1' }
@@ -214,7 +214,7 @@ describe('ApiService - Testes de Integração', () => {
     it('deve listar produtos com parâmetros de filtro', () => {
       const params = { categoria: '1', ordenar: 'preco' };
       const mockProdutos = [
-        { id: 1, nomeProduto: 'Produto A', categoria: { id: 1 } }
+        { id: 1, nomeProduto: 'Produto 1', categoria: { id: 1 } }
       ];
 
       service.listarProdutos(params).subscribe((produtos: any) => {
@@ -234,17 +234,17 @@ describe('ApiService - Testes de Integração', () => {
       const produtoId = '1';
       const mockProduto = {
         id: 1,
-        nomeProduto: 'Notebook',
+        nomeProduto: 'Produto 1',
         precoProduto: 3500,
         estoqueProduto: 10,
-        descricaoProduto: 'Notebook Dell',
+        descricaoProduto: 'Descrição do Produto 1',
         categoria: { id: 1, nome: 'Eletrônicos' },
-        imagemUrl: '/uploads/produtos/notebook.jpg'
+        imagemUrl: '/uploads/produtos/produto-1.jpg'
       };
 
       service.obterProduto(produtoId).subscribe((produto: any) => {
         expect(produto).toEqual(mockProduto);
-        expect(produto.nomeProduto).toBe('Notebook');
+        expect(produto.nomeProduto).toBe('Produto 1');
         expect(produto.categoria).toBeDefined();
       });
 
@@ -273,8 +273,8 @@ describe('ApiService - Testes de Integração', () => {
     it('deve listar produtos de uma categoria específica', () => {
       const categoriaId = 1;
       const mockProdutos = [
-        { id: 1, nomeProduto: 'Produto A', categoria: { id: 1 } },
-        { id: 3, nomeProduto: 'Produto C', categoria: { id: 1 } }
+        { id: 1, nomeProduto: 'Produto 1', categoria: { id: 1 } },
+        { id: 3, nomeProduto: 'Produto 3', categoria: { id: 1 } }
       ];
 
       service.listarProdutosCategoria(categoriaId).subscribe((produtos: any) => {
