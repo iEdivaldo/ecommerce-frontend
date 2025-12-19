@@ -1,4 +1,4 @@
-# EcommerceFrontend
+# eCommerce front-end
 
 A aplicação está em dois links de github separados (front-end e back-end):
 
