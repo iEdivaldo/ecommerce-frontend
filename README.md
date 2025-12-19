@@ -1,54 +1,46 @@
-# EcommerceFrontend
+# eCommerce front-end
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+A aplicação está em dois links de github separados (front-end e back-end):
 
-## Development server
+front-end: https://github.com/iEdivaldo/ecommerce-frontend.
 
-To start a local development server, run:
+back-end: https://github.com/iEdivaldo/ecommerce-backend.
+1.	Para executar a aplicação, deve ter:
 
-```bash
-ng serve
-```
+Git
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Docker
 
-## Code scaffolding
+Docker Compose 
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+2.	Clone os repositórios utilizando comando:
 
-```bash
-ng generate component component-name
-```
+git clone https://github.com/iEdivaldo/ecommerce-frontend.git
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+git clone https://github.com/iEdivaldo/ecommerce-backend.git
 
-```bash
-ng generate --help
-```
+3.	Navega até a pasta do back-end utilizando comando:
 
-## Building
+cd "caminho-da-pasta-do-back-end"
 
-To build the project run:
+  3.1.	OBS: Certifique que tenha virtualização ativado em seu PC para mais detalhes acesse o link:
 
-```bash
-ng build
-```
+https://docs.docker.com/desktop/setup/install/windows-install/
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+4.	Executa o comando do Docker já instalado no PC:
 
-## Running unit tests
+docker composse up –build
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+5.	Provavelmente não terá nenhuns dados, então abre o Docker Desktop e executa o flyway-1 assim, adicionando novos usuários e informações necessários em seu banco de dados PostgreSQL.
 
-```bash
-ng test
-```
 
-## Running end-to-end tests
+DADOS DE LOGIN PARA ADMINISTRADOR (VENDEDOR/EMPREENDEDOR) E SUPER_ADMIN PARA ADMINISTRAR OS USUARIOS:
 
-For end-to-end (e2e) testing, run:
+Login ADMINISTRADOR: admin@exemplo.com senha: admin
 
-```bash
+Login SUPER_ADMIN: superadmin@exemplo.com senha: admin
+OBS: Apenas SUPER_ADMIN pode cadastrar usuários ADMINISTRADOR. 
+
 ng e2e
 ```
 
