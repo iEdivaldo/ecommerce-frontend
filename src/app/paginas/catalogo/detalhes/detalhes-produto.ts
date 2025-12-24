@@ -51,6 +51,12 @@ export class DetalhesProduto {
       return;
     }
 
+    const usuario = this.auth.usuario();
+    if (usuario && (usuario.perfil === 'ADMINISTRADOR')) {
+      alert(`Como ${usuario.perfil === 'ADMINISTRADOR' ? 'vendedor' : 'empreendedor'}, você não pode adicionar produtos ao carrinho. Se deseja comprar, favor sair da conta Sr(a) ${usuario.nome} e fazer login em sua conta pessoal.`);
+      return;
+    }
+
     if (this.produto.estoqueProduto === 0) {
       alert('Este produto está esgotado no momento.');
       return;
